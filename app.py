@@ -267,6 +267,74 @@ def open_kudos_modal(ack, body, client):
     client.views_open(trigger_id=body["trigger_id"], view=build_modal())
 
 
+@app.shortcut("give_kudos")
+def open_from_shortcut(ack, body, client):
+    """Global shortcut: the ⚡/+ menu next to the message box."""
+    ack()
+    client.views_open(trigger_id=body["trigger_id"], view=build_modal())
+
+
+@app.shortcut("kudos_for_message")
+def open_from_message(ack, body, client):
+    """Message shortcut: pre-select the message's author as recipient."""
+    ack()
+    author = (body.get("message") or {}).get("user")  # None for bot messages
+    client.views_open(trigger_id=body["trigger_id"], view=build_modal(recipient=author))
+
+
+@app.event("app_home_opened")
+def publish_home(client, event):
+    client.views_publish(
+        user_id=event["user"],
+        view={
+            "type": "home",
+            "blocks": [
+                {
+                    "type": "header",
+                    "text": {"type": "plain_text", "text": "🔔 Hear ye, hear ye!"},
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "mrkdwn",
+                        "text": (
+                            "Someone delivered a wow? Took ownership? Unblocked you?\n"
+                            "*Proclaim it!* Public kudos go to the kudos channel; "
+                            "private ones go only to the recipient."
+                        ),
+                    },
+                },
+                {
+                    "type": "actions",
+                    "elements": [
+                        {
+                            "type": "button",
+                            "action_id": "home_give_kudos",
+                            "style": "primary",
+                            "text": {"type": "plain_text", "text": "Give kudos 🔔"},
+                        }
+                    ],
+                },
+                {
+                    "type": "context",
+                    "elements": [
+                        {
+                            "type": "mrkdwn",
+                            "text": "Tip: you can also type `/kudos` anywhere, or use a message's ⋮ menu to credit its author.",
+                        }
+                    ],
+                },
+            ],
+        },
+    )
+
+
+@app.action("home_give_kudos")
+def open_from_home(ack, body, client):
+    ack()
+    client.views_open(trigger_id=body["trigger_id"], view=build_modal())
+
+
 @app.action("template_select")
 def on_template_change(ack, body, client):
     ack()
