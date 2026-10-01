@@ -389,5 +389,27 @@ def handle_submission(ack, body, client, logger):
     client.chat_postMessage(channel=giver, text=confirmation)
 
 
+def _start_health_server():
+    """Tiny HTTP server so platforms like Koyeb see the app as healthy."""
+    import threading
+    from http.server import BaseHTTPRequestHandler, HTTPServer
+
+    class Health(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header("Content-Type", "text/plain")
+            self.end_headers()
+            self.wfile.write(b"ok")
+
+        def log_message(self, *args):
+            pass  # keep logs clean
+
+    port = int(os.environ.get("PORT", "8000"))
+    server = HTTPServer(("0.0.0.0", port), Health)
+    threading.Thread(target=server.serve_forever, daemon=True).start()
+    log.info("Health endpoint listening on port %s", port)
+
+
 if __name__ == "__main__":
+    _start_health_server()
     SocketModeHandler(app, os.environ["SLACK_APP_TOKEN"]).start()
