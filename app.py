@@ -366,7 +366,10 @@ def handle_submission(ack, body, client, logger):
                 }
             ],
         )
-        confirmation = f"📜 Thy kudos to <@{recipient}> hath been proclaimed in <#{KUDOS_CHANNEL}>!"
+        if KUDOS_CHANNEL.startswith("C"):
+            confirmation = f"📜 Thy kudos to <@{recipient}> hath been proclaimed in <#{KUDOS_CHANNEL}>!"
+        else:
+            confirmation = f"📜 Thy kudos to <@{recipient}> hath been proclaimed! (test mode: delivered to the test destination)"
     else:
         client.chat_postMessage(
             channel=recipient,
