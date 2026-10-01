@@ -17,7 +17,7 @@ features:
       type: global
       callback_id: give_kudos
       description: Open the kudos form
-    - name: Give kudos for this message
+    - name: Kudos this message
       type: message
       callback_id: kudos_for_message
       description: Send kudos to this message's author
