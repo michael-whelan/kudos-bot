@@ -411,28 +411,45 @@ def handle_submission(ack, body, client, logger):
     if value_id != NO_VALUE_ID and value_id in VALUES:
         v = VALUES[value_id]
         value_tag = f"{v['emoji']} {v['name']}"
+        accent = v.get("color", "#2f6fed")
     else:
         value_tag = None
+        accent = "#2f6fed"
 
     tagline = f"  ·  {value_tag}" if value_tag else ""
     quoted = "\n".join(f"> {line}" for line in message.splitlines())
 
     if visibility == "public":
+        card = [
+            {
+                "type": "header",
+                "text": {"type": "plain_text", "text": f"{heading} 🔔", "emoji": True},
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": (f"{value_tag}   →   *unto <@{recipient}>*" if value_tag
+                             else f"*unto <@{recipient}>*"),
+                },
+            },
+            {"type": "section", "text": {"type": "mrkdwn", "text": quoted}},
+        ]
         client.chat_postMessage(
             channel=KUDOS_CHANNEL,
             text=f"Hear ye! Kudos from <@{giver}> to <@{recipient}>: {heading}",
             blocks=[
                 {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": (
-                            f"🔔 *Hear ye, hear ye!* <@{giver}> proclaims kudos unto <@{recipient}>:\n"
-                            f"*{heading}*{tagline}\n{quoted}"
-                        ),
-                    },
+                    "type": "context",
+                    "elements": [
+                        {
+                            "type": "mrkdwn",
+                            "text": f"🔔 *Hear ye, hear ye!* A proclamation from <@{giver}>",
+                        }
+                    ],
                 }
             ],
+            attachments=[{"color": accent, "blocks": card}],
         )
         if KUDOS_CHANNEL.startswith("C"):
             confirmation = f"📜 Thy kudos to <@{recipient}> hath been proclaimed in <#{KUDOS_CHANNEL}>!"
@@ -444,16 +461,26 @@ def handle_submission(ack, body, client, logger):
             text=f"Private kudos from <@{giver}>: {heading}",
             blocks=[
                 {
-                    "type": "section",
-                    "text": {
-                        "type": "mrkdwn",
-                        "text": (
-                            f"🔔 *Hear ye! A private proclamation, for thine eyes only.*\n"
-                            f"*{heading}*{tagline}  —  from <@{giver}>\n{quoted}"
-                        ),
-                    },
+                    "type": "context",
+                    "elements": [
+                        {
+                            "type": "mrkdwn",
+                            "text": f"🔔 *Hear ye!* A private proclamation from <@{giver}>, for thine eyes only",
+                        }
+                    ],
                 }
             ],
+            attachments=[{
+                "color": accent,
+                "blocks": [
+                    {
+                        "type": "header",
+                        "text": {"type": "plain_text", "text": f"{heading} 🎁", "emoji": True},
+                    },
+                    *([{"type": "section", "text": {"type": "mrkdwn", "text": value_tag}}] if value_tag else []),
+                    {"type": "section", "text": {"type": "mrkdwn", "text": quoted}},
+                ],
+            }],
         )
         confirmation = f"📜 Thy private kudos was delivered to <@{recipient}>. None other shall know of it."
 

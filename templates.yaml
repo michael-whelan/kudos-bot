@@ -7,12 +7,15 @@ values:
   excellence:
     name: Excellence
     emoji: "✨"
+    color: "#F2B10E"   # gold
   ownership:
     name: Ownership
     emoji: "🤝"
+    color: "#2EB67D"   # teal green
   ambition:
     name: Ambition
     emoji: "🚀"
+    color: "#7C3AED"   # purple
 
 templates:
   # ----- Excellence -----
