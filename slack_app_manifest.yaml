@@ -1,0 +1,27 @@
+# Create the Slack app from this manifest:
+# api.slack.com/apps -> Create New App -> From an app manifest -> paste this.
+display_information:
+  name: Kudos
+  description: Give teammates public or private kudos tied to Biorce values
+  background_color: "#2f6fed"
+features:
+  bot_user:
+    display_name: Kudos
+    always_online: true
+  slash_commands:
+    - command: /kudos
+      description: Give someone kudos (public or private)
+      should_escape: false
+oauth_config:
+  scopes:
+    bot:
+      - commands
+      - chat:write
+      - users:read
+      - im:write
+settings:
+  interactivity:
+    is_enabled: true
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false

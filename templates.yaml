@@ -1,0 +1,82 @@
+# Biorce kudos templates.
+# Edit freely: add/remove templates, tweak headings, prompts, and emoji.
+# Each template belongs to one value. The prompt prefills the message box
+# in the modal and stays fully editable by the sender.
+
+values:
+  excellence:
+    name: Excellence
+    emoji: "✨"
+  ownership:
+    name: Ownership
+    emoji: "🤝"
+  ambition:
+    name: Ambition
+    emoji: "🚀"
+
+templates:
+  # ----- Excellence -----
+  - id: wow_delivery
+    value: excellence
+    heading: "Wow delivery"
+    prompt: "Delivered a genuine wow: "
+  - id: raised_the_bar
+    value: excellence
+    heading: "Raised the bar"
+    prompt: "Set a new standard for quality by "
+  - id: craft_and_polish
+    value: excellence
+    heading: "Craft & polish"
+    prompt: "The care and attention to detail in "
+  - id: sharp_catch
+    value: excellence
+    heading: "Sharp catch"
+    prompt: "Spotted something the rest of us missed: "
+  - id: always_improving
+    value: excellence
+    heading: "Always improving"
+    prompt: "Made us all better by improving "
+
+  # ----- Ownership -----
+  - id: took_ownership
+    value: ownership
+    heading: "Took ownership"
+    prompt: "Took full responsibility for "
+  - id: unblocked_teammate
+    value: ownership
+    heading: "Unblocked a teammate"
+    prompt: "Helped me/us move forward by "
+  - id: saw_it_through
+    value: ownership
+    heading: "Saw it through"
+    prompt: "Followed it all the way to the finish line: "
+  - id: stepped_up
+    value: ownership
+    heading: "Stepped up"
+    prompt: "Stepped up when it mattered: "
+  - id: we_before_me
+    value: ownership
+    heading: "We before me"
+    prompt: "Put the team's success first by "
+
+  # ----- Ambition -----
+  - id: bold_move
+    value: ambition
+    heading: "Bold move"
+    prompt: "Took a bold swing: "
+  - id: thinking_big
+    value: ambition
+    heading: "Thinking big"
+    prompt: "Pushed our thinking beyond the obvious with "
+  - id: category_defining
+    value: ambition
+    heading: "Category-defining"
+    prompt: "This is the kind of work that defines the category: "
+  - id: fearless_goal
+    value: ambition
+    heading: "Fearless goal"
+    prompt: "Set a goal most people would shy away from: "
+  - id: pushed_the_boundary
+    value: ambition
+    heading: "Pushed the boundary"
+    prompt: "Challenged what we thought was possible by "
