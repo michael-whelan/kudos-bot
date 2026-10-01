@@ -1,0 +1,15 @@
+[Unit]
+Description=Biorce Kudos Slack bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=kudos
+WorkingDirectory=/opt/kudos-bot
+ExecStart=/opt/kudos-bot/.venv/bin/python /opt/kudos-bot/app.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
